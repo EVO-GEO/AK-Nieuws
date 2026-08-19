@@ -380,146 +380,82 @@
 
 <script>
 /* ==========================================================
-   VOORBEELDDATA
-   Dit wordt later vervangen door fetch() naar de echte
-   bestanden die de wekelijkse GitHub Actions-workflow
-   wegschrijft, bv.:
-     fetch('data/feed-klimaat-water.json')
-     fetch('data/opdrachten-index.json')
-   Structuur blijft gelijk aan wat hieronder staat.
+   RUBRIEK-DEFINITIES
+   Vaste metadata (icoon, naam, beschrijving) per rubriek. De
+   artikelen zelf komen NIET meer uit dummy-data, maar via fetch()
+   uit data/feed-<rubriek-id>.json — dat bestand wordt wekelijks
+   bijgewerkt door de GitHub Actions-workflow.
    ========================================================== */
+
+const DATA_PAD = "data";
 
 const RUBRIEKEN = [
   {
     id: "klimaat-water",
     icoon: "🌧️",
     naam: "Klimaat & water",
-    beschrijving: "Nieuws over het weer, extreme regen of droogte, en hoe landen omgaan met te veel of te weinig water.",
-    artikelen: [
-      { titel: "Zuid-Europa kampt met aanhoudende hittegolf en watertekorten", bron: "NOS", datum: "2026-08-17", url: "#" },
-      { titel: "Rivierwaterstanden dalen tot recordlaagte in Rijn en Maas", bron: "NRC", datum: "2026-08-14", url: "#" },
-      { titel: "Nieuw dijkversterkingsproject van start in Zeeland", bron: "Omroep Zeeland", datum: "2026-08-12", url: "#" },
-      { titel: "Overstromingen richten schade aan in Pakistan na moessonregens", bron: "NOS", datum: "2026-08-11", url: "#" },
-      { titel: "Gletsjers in de Alpen smelten sneller dan verwacht, blijkt uit meting", bron: "Volkskrant", datum: "2026-08-10", url: "#" }
-    ]
+    beschrijving: "Nieuws over het weer, extreme regen of droogte, en hoe landen omgaan met te veel of te weinig water."
   },
   {
     id: "energie-grondstoffen",
     icoon: "⚡",
     naam: "Energie & grondstoffen",
-    beschrijving: "Nieuws over waar onze energie en grondstoffen vandaan komen, en hoe we overstappen op duurzame energie.",
-    artikelen: [
-      { titel: "Bouw nieuw windpark op de Noordzee van start", bron: "NOS", datum: "2026-08-16", url: "#" },
-      { titel: "Kabinet bespreekt toekomst van gasboringen in Groningen", bron: "NRC", datum: "2026-08-15", url: "#" },
-      { titel: "Vraag naar lithium voor batterijen jaagt mijnbouw in Zuid-Amerika aan", bron: "Trouw", datum: "2026-08-13", url: "#" },
-      { titel: "Energieprijzen stijgen door onrust op wereldmarkt", bron: "FD", datum: "2026-08-11", url: "#" }
-    ]
+    beschrijving: "Nieuws over waar onze energie en grondstoffen vandaan komen, en hoe we overstappen op duurzame energie."
   },
   {
     id: "bevolking-wonen",
     icoon: "🏙️",
     naam: "Bevolking & wonen",
-    beschrijving: "Nieuws over waar mensen wonen, steden die groeien of krimpen, en waarom mensen verhuizen.",
-    artikelen: [
-      { titel: "Woningtekort in grote steden loopt verder op", bron: "NOS", datum: "2026-08-17", url: "#" },
-      { titel: "Lagos groeit uit tot een van de grootste steden ter wereld", bron: "NRC", datum: "2026-08-14", url: "#" },
-      { titel: "Krimpregio's zoeken naar manieren om jongeren vast te houden", bron: "Volkskrant", datum: "2026-08-12", url: "#" }
-    ]
+    beschrijving: "Nieuws over waar mensen wonen, steden die groeien of krimpen, en waarom mensen verhuizen."
   },
   {
     id: "arm-rijk",
     icoon: "💰",
     naam: "Arm & rijk",
-    beschrijving: "Nieuws over verschillen tussen arme en rijke landen, wereldhandel en hulp aan elkaar.",
-    artikelen: [
-      { titel: "Handelsspanningen tussen grootmachten lopen op", bron: "FD", datum: "2026-08-16", url: "#" },
-      { titel: "Internationale hulp op gang na natuurramp in Oost-Afrika", bron: "NOS", datum: "2026-08-13", url: "#" },
-      { titel: "Economie van Vietnam groeit sneller dan verwacht", bron: "NRC", datum: "2026-08-10", url: "#" }
-    ]
+    beschrijving: "Nieuws over verschillen tussen arme en rijke landen, wereldhandel en hulp aan elkaar."
   },
   {
     id: "grenzen-identiteit",
     icoon: "🗺️",
     naam: "Grenzen & identiteit",
-    beschrijving: "Nieuws over landsgrenzen, conflicten tussen landen, en wat mensen samenbindt of juist verdeelt.",
-    artikelen: [
-      { titel: "Spanning aan grens loopt op na incident tussen twee landen", bron: "NOS", datum: "2026-08-17", url: "#" },
-      { titel: "Referendum over autonomie zorgt voor onrust in regio", bron: "NRC", datum: "2026-08-15", url: "#" },
-      { titel: "Vluchtelingenstroom neemt toe door aanhoudend conflict", bron: "Trouw", datum: "2026-08-12", url: "#" }
-    ]
+    beschrijving: "Nieuws over landsgrenzen, conflicten tussen landen, en wat mensen samenbindt of juist verdeelt."
   }
 ];
 
-const OPDRACHT_WEKEN = [
-  {
-    label: "Deze week",
-    week: "2026-W34",
-    verhalen: [
-      {
-        titel: "Zuid-Europa kampt met aanhoudende hittegolf en watertekorten",
-        bron: "NOS", datum: "2026-08-17", url: "#",
-        opdracht: "Zoek op een kaart welke landen in Zuid-Europa worden genoemd. Leg in drie zinnen uit waarom juist deze regio gevoelig is voor droogte."
-      },
-      {
-        titel: "Bouw nieuw windpark op de Noordzee van start",
-        bron: "NOS", datum: "2026-08-16", url: "#",
-        opdracht: "Vergelijk windenergie op zee met windenergie op land. Noem twee voordelen en twee nadelen van een locatie op zee."
-      },
-      {
-        titel: "Spanning aan grens loopt op na incident tussen twee landen",
-        bron: "NOS", datum: "2026-08-17", url: "#",
-        opdracht: "Zoek de betrokken landsgrens op. Beschrijf kort de geografische ligging en waarom grenzen soms tot spanning leiden."
-      }
-    ]
-  },
-  {
-    label: "1 week terug",
-    week: "2026-W33",
-    verhalen: [
-      {
-        titel: "Woningtekort in grote steden loopt verder op",
-        bron: "NOS", datum: "2026-08-10", url: "#",
-        opdracht: "Noem twee oorzaken van woningtekort in steden en één mogelijke oplossing die een gemeente zou kunnen inzetten."
-      },
-      {
-        titel: "Handelsspanningen tussen grootmachten lopen op",
-        bron: "FD", datum: "2026-08-09", url: "#",
-        opdracht: "Leg uit wat een handelsspanning betekent voor een gewone consument. Geef een concreet voorbeeld van een product."
-      },
-      {
-        titel: "Gletsjers in de Alpen smelten sneller dan verwacht",
-        bron: "Volkskrant", datum: "2026-08-08", url: "#",
-        opdracht: "Beschrijf twee gevolgen van smeltende gletsjers, één voor de natuur en één voor mensen die er wonen."
-      }
-    ]
-  },
-  {
-    label: "2 weken terug",
-    week: "2026-W32",
-    verhalen: [
-      {
-        titel: "Overstromingen richten schade aan in Pakistan na moessonregens",
-        bron: "NOS", datum: "2026-08-03", url: "#",
-        opdracht: "Zoek op wat een moesson is. Leg uit waarom deze regenval soms tot overstromingen leidt."
-      },
-      {
-        titel: "Vraag naar lithium voor batterijen jaagt mijnbouw aan",
-        bron: "Trouw", datum: "2026-08-02", url: "#",
-        opdracht: "Noem één land waar veel lithium wordt gewonnen. Beschrijf een mogelijk nadeel van deze mijnbouw voor het milieu."
-      },
-      {
-        titel: "Referendum over autonomie zorgt voor onrust in regio",
-        bron: "NRC", datum: "2026-08-01", url: "#",
-        opdracht: "Leg in eigen woorden uit wat een referendum is en waarom een regio meer zelfstandigheid zou willen."
-      }
-    ]
-  }
-];
-
-/* ============ RENDER: TABS ============ */
 const tabRow = document.getElementById('tabRow');
 const mainContent = document.getElementById('mainContent');
 
+/* ============ HULPFUNCTIES ============ */
+function formatDatum(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' });
+}
+
+function escapeHtml(tekst) {
+  const el = document.createElement('div');
+  el.textContent = tekst ?? '';
+  return el.innerHTML;
+}
+
+function isoWeekVan(datum) {
+  const d = new Date(Date.UTC(datum.getFullYear(), datum.getMonth(), datum.getDate()));
+  const dagNummer = (d.getUTCDay() + 6) % 7;
+  d.setUTCDate(d.getUTCDate() - dagNummer + 3);
+  const eersteDonderdag = new Date(Date.UTC(d.getUTCFullYear(), 0, 4));
+  const week = 1 + Math.round(((d - eersteDonderdag) / 86400000 - 3 + ((eersteDonderdag.getUTCDay() + 6) % 7)) / 7);
+  return week;
+}
+
+/* ============ DATELINE ============ */
+(function stelDatelineIn() {
+  const nu = new Date();
+  const week = isoWeekVan(nu);
+  const datumTekst = nu.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('dateline').textContent = `Editie ${week} — week van ${datumTekst}`;
+})();
+
+/* ============ TABS ============ */
 RUBRIEKEN.forEach((r, i) => {
   const btn = document.createElement('button');
   btn.className = 'tab-btn';
@@ -540,85 +476,137 @@ opdrachtBtn.innerHTML = `<span class="tab-icon">📝</span> Opdracht van de week
 opdrachtBtn.addEventListener('click', () => activeerTab('opdracht'));
 tabRow.appendChild(opdrachtBtn);
 
-/* ============ RENDER: NIEUWS-PANELEN ============ */
+function activeerTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', b.dataset.target === id ? 'true' : 'false'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+}
+
+/* ============ NIEUWS-PANELEN (per rubriek, async geladen) ============ */
 RUBRIEKEN.forEach((r, i) => {
   const panel = document.createElement('section');
   panel.className = 'panel' + (i === 0 ? ' active' : '');
   panel.id = 'panel-' + r.id;
   panel.setAttribute('role', 'tabpanel');
-
-  const lijst = r.artikelen.length
-    ? `<ul class="artikel-lijst">${r.artikelen.map(a => `
-        <li class="artikel-item">
-          <a class="artikel-titel" href="${a.url}" target="_blank" rel="noopener">${a.titel}</a>
-          <div class="artikel-meta">${a.bron} <span class="datum">· ${formatDatum(a.datum)}</span></div>
-        </li>`).join('')}</ul>`
-    : `<p class="lege-rubriek">Deze week geen nieuwe berichten in deze rubriek.</p>`;
-
   panel.innerHTML = `
     <div class="rubriek-header">
       <h2>${r.icoon} ${r.naam}</h2>
       <p>${r.beschrijving}</p>
     </div>
-    ${lijst}
+    <p class="laad-status">Artikelen laden…</p>
   `;
   mainContent.appendChild(panel);
+  laadRubriek(r);
 });
 
-/* ============ RENDER: OPDRACHT-PANEEL ============ */
+async function laadRubriek(r) {
+  const panel = document.getElementById('panel-' + r.id);
+  const laadStatus = panel.querySelector('.laad-status');
+
+  try {
+    const respons = await fetch(`${DATA_PAD}/feed-${r.id}.json`);
+    if (!respons.ok) throw new Error(`HTTP ${respons.status}`);
+    const artikelen = await respons.json();
+
+    laadStatus.remove();
+
+    if (!artikelen.length) {
+      panel.insertAdjacentHTML('beforeend', `<p class="lege-rubriek">Deze week geen nieuwe berichten in deze rubriek.</p>`);
+      return;
+    }
+
+    const lijst = document.createElement('ul');
+    lijst.className = 'artikel-lijst';
+    lijst.innerHTML = artikelen.map(a => `
+      <li class="artikel-item">
+        <a class="artikel-titel" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.titel)}</a>
+        <div class="artikel-meta">${escapeHtml(a.bron)} <span class="datum">· ${formatDatum(a.datum)}</span></div>
+      </li>
+    `).join('');
+    panel.appendChild(lijst);
+  } catch (fout) {
+    laadStatus.textContent = 'Kon deze rubriek niet laden. Probeer de pagina te verversen.';
+    console.error(`Fout bij laden van rubriek ${r.id}:`, fout);
+  }
+}
+
+/* ============ OPDRACHT-PANEEL (async geladen) ============ */
 const opdrachtPanel = document.createElement('section');
 opdrachtPanel.className = 'panel';
 opdrachtPanel.id = 'panel-opdracht';
 opdrachtPanel.setAttribute('role', 'tabpanel');
-
 opdrachtPanel.innerHTML = `
   <div class="rubriek-header">
     <h2>📝 Opdracht van de week</h2>
     <p>Elke maandag kiest de redactie drie grote, uiteenlopende verhalen van de afgelopen week en maakt daar een korte opdracht bij.</p>
   </div>
   <div class="week-selector" id="weekSelector"></div>
-  <div id="opdrachtInhoud"></div>
+  <div id="opdrachtInhoud"><p class="laad-status">Opdrachten laden…</p></div>
 `;
 mainContent.appendChild(opdrachtPanel);
+laadOpdrachten();
 
-const weekSelector = document.getElementById('weekSelector');
-const opdrachtInhoud = document.getElementById('opdrachtInhoud');
+async function laadOpdrachten() {
+  const weekSelector = document.getElementById('weekSelector');
+  const opdrachtInhoud = document.getElementById('opdrachtInhoud');
+  const weekLabels = ["Deze week", "1 week terug", "2 weken terug", "3 weken terug"];
 
-OPDRACHT_WEKEN.forEach((w, i) => {
-  const pill = document.createElement('button');
-  pill.className = 'week-pill' + (i === 0 ? ' actief' : '');
-  pill.textContent = w.label;
-  pill.addEventListener('click', () => toonWeek(i));
-  weekSelector.appendChild(pill);
-});
-
-function toonWeek(index) {
-  [...weekSelector.children].forEach((p, i) => p.classList.toggle('actief', i === index));
-  const week = OPDRACHT_WEKEN[index];
-  opdrachtInhoud.innerHTML = week.verhalen.map(v => `
-    <div class="opdracht-kaart">
-      <p class="opdracht-label">Verhaal</p>
-      <a class="artikel-titel" href="${v.url}" target="_blank" rel="noopener">${v.titel}</a>
-      <div class="artikel-meta">${v.bron} <span class="datum">· ${formatDatum(v.datum)}</span></div>
-      <div class="opdracht-tekst">
-        <strong>Opdracht</strong>
-        ${v.opdracht}
+  function toonWeek(index, alleWeekData) {
+    [...weekSelector.children].forEach((p, i) => p.classList.toggle('actief', i === index));
+    const data = alleWeekData[index];
+    opdrachtInhoud.innerHTML = data.verhalen.map(v => `
+      <div class="opdracht-kaart">
+        <p class="opdracht-label">Verhaal</p>
+        <a class="artikel-titel" href="${escapeHtml(v.url)}" target="_blank" rel="noopener">${escapeHtml(v.titel)}</a>
+        <div class="artikel-meta">${escapeHtml(v.bron)} <span class="datum">· ${formatDatum(v.datum)}</span></div>
+        <div class="opdracht-tekst">
+          <strong>Opdracht</strong>
+          ${escapeHtml(v.opdracht)}
+        </div>
       </div>
-    </div>
-  `).join('');
-}
-toonWeek(0);
+    `).join('');
+  }
 
-/* ============ TAB-NAVIGATIE ============ */
-function activeerTab(id) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', b.dataset.target === id ? 'true' : 'false'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
-}
+  try {
+    const indexRespons = await fetch(`${DATA_PAD}/opdrachten-index.json`);
+    if (!indexRespons.ok) throw new Error(`HTTP ${indexRespons.status}`);
+    const weken = await indexRespons.json();
 
-/* ============ HULPFUNCTIES ============ */
-function formatDatum(iso) {
-  const d = new Date(iso);
-  return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' });
+    if (!weken.length) {
+      opdrachtInhoud.innerHTML = `<p class="lege-rubriek">Er is nog geen opdracht gepubliceerd. Kom volgende maandag terug.</p>`;
+      return;
+    }
+
+    const responses = await Promise.all(
+      weken.map(w => fetch(`${DATA_PAD}/opdrachten/${w}.json`).then(r => (r.ok ? r.json() : null)))
+    );
+
+    const geldigeWeken = [];
+    const geldigeData = [];
+    weken.forEach((w, i) => {
+      if (responses[i]) {
+        geldigeWeken.push(w);
+        geldigeData.push(responses[i]);
+      }
+    });
+
+    if (!geldigeData.length) {
+      opdrachtInhoud.innerHTML = `<p class="lege-rubriek">Er is nog geen opdracht gepubliceerd. Kom volgende maandag terug.</p>`;
+      return;
+    }
+
+    geldigeWeken.forEach((w, i) => {
+      const pill = document.createElement('button');
+      pill.className = 'week-pill' + (i === 0 ? ' actief' : '');
+      pill.textContent = weekLabels[i] || w;
+      pill.addEventListener('click', () => toonWeek(i, geldigeData));
+      weekSelector.appendChild(pill);
+    });
+
+    toonWeek(0, geldigeData);
+  } catch (fout) {
+    opdrachtInhoud.innerHTML = `<p class="lege-rubriek">Kon de opdrachten niet laden. Probeer de pagina te verversen.</p>`;
+    console.error('Fout bij laden van opdrachten:', fout);
+  }
 }
 </script>
 
