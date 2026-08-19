@@ -1,1 +1,45 @@
+name: Wekelijkse nieuwsfeed
 
+on:
+  schedule:
+    # 06:00 UTC = 08:00 NL-tijd tijdens zomertijd (CEST, UTC+2).
+    # In wintertijd (CET, UTC+1) komt dit uit op 07:00 NL-tijd — pas dit getal
+    # rond de klokwissel handmatig aan, of vervang door 07:00 UTC als je liever
+    # het hele jaar op klok-tijd 09:00 CET uitkomt. GitHub garandeert sowieso
+    # geen exacte starttijd bij drukte op het platform.
+    - cron: '0 6 * * 1'
+  workflow_dispatch: # handmatig te starten via de Actions-tab, handig om te testen
+
+jobs:
+  build-feeds:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Repository uitchecken
+        uses: actions/checkout@v4
+
+      - name: Python instellen
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Dependencies installeren
+        run: pip install -r scripts/requirements.txt
+
+      - name: Nieuwsbronnen ophalen
+        run: python scripts/fetch_feeds.py
+
+      - name: Artikelen classificeren met LLM
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/classify_feeds.py
+
+      - name: Wijzigingen committen
+        run: |
+          git config user.name "ak-nieuws-bot"
+          git config user.email "actions@github.com"
+          git add data/
+          git diff --quiet --cached || git commit -m "Wekelijkse feed-update $(date +'%Y-W%V')"
+          git push
