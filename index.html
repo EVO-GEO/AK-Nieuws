@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AK-Nieuws — aardrijkskunde in het nieuws</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ---- Kleurtokens ---- */
+    --paper:        #EFF2EC;
+    --paper-shade:  #E4E8DE;
+    --paper-deep:   #DADFD2;
+    --ink:          #16232F;
+    --ink-soft:     #46545F;
+    --navy:         #123249;
+    --navy-2:       #1B4A66;
+    --forest:       #2F6B4F;
+    --forest-dark:  #1F4934;
+    --gold:         #B98A2E;
+    --gold-soft:    #F2E6CC;
+    --rule:         #C7CDBF;
+    --rule-strong:  #9BA495;
+
+    /* ---- Typografie ---- */
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'Space Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  /* ============ MASTHEAD ============ */
+  header.masthead {
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(11,31,46,0.94) 0%, rgba(13,38,55,0.72) 38%, rgba(13,38,55,0.72) 62%, rgba(11,31,46,0.94) 100%),
+      radial-gradient(ellipse 60% 90% at 50% 45%, rgba(9,26,38,0.55) 0%, rgba(9,26,38,0) 70%),
+      url('ak-nieuws-banner.jpg') center 30% / cover no-repeat;
+    color: var(--paper);
+    padding: 3.6rem 1.5rem 2.2rem;
+    text-align: center;
+  }
+
+  .masthead-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #C7D6DD;
+    margin: 0 0 0.6rem;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  }
+
+  .masthead-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    margin: 0;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.55);
+  }
+
+  .masthead-title span {
+    color: var(--gold);
+  }
+
+  .masthead-rule {
+    max-width: 640px;
+    margin: 1rem auto 0.6rem;
+    border: none;
+    border-top: 3px solid var(--paper);
+    border-bottom: 1px solid rgba(239,242,236,0.5);
+    height: 0;
+  }
+
+  .masthead-dateline {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: #C7D6DD;
+    text-transform: uppercase;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  }
+
+  /* ============ INTRO ============ */
+  .intro {
+    max-width: 620px;
+    margin: 2rem auto 0;
+    padding: 0 1.5rem;
+    text-align: center;
+  }
+
+  .intro p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ============ TABS ============ */
+  nav.rubrieken {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    margin-top: 2rem;
+  }
+
+  .rubrieken-eyebrow {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0.9rem 1.5rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .tab-row {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.4rem;
+    padding: 0.5rem 1.5rem 0;
+  }
+
+  .tab-btn {
+    appearance: none;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    padding: 0.6rem 0.65rem 0.55rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover { color: var(--ink); }
+
+  .tab-btn:focus-visible {
+    outline: 2px solid var(--navy-2);
+    outline-offset: 2px;
+  }
+
+  .tab-btn[aria-selected="true"] {
+    color: var(--navy);
+    border-bottom-color: var(--forest);
+  }
+
+  .tab-btn.opdracht-tab[aria-selected="true"] {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  .tab-icon { font-size: 1rem; }
+
+  /* ============ CONTENT ============ */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.8rem 1.5rem 4rem;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade 0.25s ease; }
+
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .rubriek-header {
+    margin-bottom: 1.4rem;
+  }
+
+  .rubriek-header h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.7rem;
+    margin: 0 0 0.3rem;
+    color: var(--navy);
+  }
+
+  .rubriek-header p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    max-width: 60ch;
+  }
+
+  /* ---- Artikel-lijst ---- */
+  ul.artikel-lijst {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .artikel-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .artikel-titel {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.08rem;
+    text-decoration: none;
+    color: var(--ink);
+    display: inline-block;
+  }
+
+  .artikel-titel:hover { color: var(--forest); text-decoration: underline; }
+  .artikel-titel:focus-visible { outline: 2px solid var(--navy-2); outline-offset: 3px; }
+
+  .artikel-meta {
+    margin-top: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--forest-dark);
+  }
+
+  .artikel-meta .datum { color: var(--ink-soft); }
+
+  .lege-rubriek {
+    padding: 2rem 0;
+    color: var(--ink-soft);
+    font-style: italic;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ============ OPDRACHT TAB ============ */
+  .week-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .week-pill {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    background: var(--paper-shade);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .week-pill:hover { border-color: var(--gold); color: var(--ink); }
+  .week-pill:focus-visible { outline: 2px solid var(--navy-2); outline-offset: 2px; }
+
+  .week-pill.actief {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #2B2005;
+  }
+
+  .opdracht-kaart {
+    border: 1px solid var(--rule-strong);
+    border-left: 4px solid var(--gold);
+    background: var(--paper-shade);
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .opdracht-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 0.5rem;
+  }
+
+  .opdracht-kaart .artikel-titel { font-size: 1.15rem; }
+
+  .opdracht-tekst {
+    margin: 0.9rem 0 0;
+    padding: 0.8rem 1rem;
+    background: var(--paper);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+
+  .opdracht-tekst strong {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--forest-dark);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 1.4rem 1.5rem 2.2rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .panel.active { animation: none; }
+  }
+
+  @media (max-width: 560px) {
+    .masthead-title { font-size: 1.9rem; }
+    .tab-btn { font-size: 0.8rem; padding: 0.55rem 0.5rem; }
+    header.masthead { padding: 2.6rem 1.2rem 1.8rem; background-position: 62% 30%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="masthead-eyebrow">een schoolproject over de wereld in het nieuws</p>
+  <h1 class="masthead-title">AK<span>-</span>Nieuws</h1>
+  <hr class="masthead-rule">
+  <p class="masthead-dateline" id="dateline">Editie 34 — week van 17 augustus 2026</p>
+</header>
+
+<div class="intro">
+  <p>Elke week worden nieuwsartikelen die raken aan aardrijkskunde verzameld en ingedeeld per rubriek. Op maandag verschijnt ook een nieuwe opdracht, gebaseerd op de belangrijkste verhalen van de week ervoor.</p>
+</div>
+
+<nav class="rubrieken" aria-label="Rubrieken">
+  <p class="rubrieken-eyebrow">Rubrieken</p>
+  <div class="tab-row" role="tablist" id="tabRow"></div>
+</nav>
+
+<main id="mainContent"></main>
+
+<footer>
+  AK-Nieuws · gegenereerd elke maandag door een LLM op basis van Nederlandse nieuwsbronnen
+</footer>
+
+<script>
+/* ==========================================================
+   VOORBEELDDATA
+   Dit wordt later vervangen door fetch() naar de echte
+   bestanden die de wekelijkse GitHub Actions-workflow
+   wegschrijft, bv.:
+     fetch('data/feed-klimaat-water.json')
+     fetch('data/opdrachten-index.json')
+   Structuur blijft gelijk aan wat hieronder staat.
+   ========================================================== */
+
+const RUBRIEKEN = [
+  {
+    id: "klimaat-water",
+    icoon: "🌧️",
+    naam: "Klimaat & water",
+    beschrijving: "Nieuws over het weer, extreme regen of droogte, en hoe landen omgaan met te veel of te weinig water.",
+    artikelen: [
+      { titel: "Zuid-Europa kampt met aanhoudende hittegolf en watertekorten", bron: "NOS", datum: "2026-08-17", url: "#" },
+      { titel: "Rivierwaterstanden dalen tot recordlaagte in Rijn en Maas", bron: "NRC", datum: "2026-08-14", url: "#" },
+      { titel: "Nieuw dijkversterkingsproject van start in Zeeland", bron: "Omroep Zeeland", datum: "2026-08-12", url: "#" },
+      { titel: "Overstromingen richten schade aan in Pakistan na moessonregens", bron: "NOS", datum: "2026-08-11", url: "#" },
+      { titel: "Gletsjers in de Alpen smelten sneller dan verwacht, blijkt uit meting", bron: "Volkskrant", datum: "2026-08-10", url: "#" }
+    ]
+  },
+  {
+    id: "energie-grondstoffen",
+    icoon: "⚡",
+    naam: "Energie & grondstoffen",
+    beschrijving: "Nieuws over waar onze energie en grondstoffen vandaan komen, en hoe we overstappen op duurzame energie.",
+    artikelen: [
+      { titel: "Bouw nieuw windpark op de Noordzee van start", bron: "NOS", datum: "2026-08-16", url: "#" },
+      { titel: "Kabinet bespreekt toekomst van gasboringen in Groningen", bron: "NRC", datum: "2026-08-15", url: "#" },
+      { titel: "Vraag naar lithium voor batterijen jaagt mijnbouw in Zuid-Amerika aan", bron: "Trouw", datum: "2026-08-13", url: "#" },
+      { titel: "Energieprijzen stijgen door onrust op wereldmarkt", bron: "FD", datum: "2026-08-11", url: "#" }
+    ]
+  },
+  {
+    id: "bevolking-wonen",
+    icoon: "🏙️",
+    naam: "Bevolking & wonen",
+    beschrijving: "Nieuws over waar mensen wonen, steden die groeien of krimpen, en waarom mensen verhuizen.",
+    artikelen: [
+      { titel: "Woningtekort in grote steden loopt verder op", bron: "NOS", datum: "2026-08-17", url: "#" },
+      { titel: "Lagos groeit uit tot een van de grootste steden ter wereld", bron: "NRC", datum: "2026-08-14", url: "#" },
+      { titel: "Krimpregio's zoeken naar manieren om jongeren vast te houden", bron: "Volkskrant", datum: "2026-08-12", url: "#" }
+    ]
+  },
+  {
+    id: "arm-rijk",
+    icoon: "💰",
+    naam: "Arm & rijk",
+    beschrijving: "Nieuws over verschillen tussen arme en rijke landen, wereldhandel en hulp aan elkaar.",
+    artikelen: [
+      { titel: "Handelsspanningen tussen grootmachten lopen op", bron: "FD", datum: "2026-08-16", url: "#" },
+      { titel: "Internationale hulp op gang na natuurramp in Oost-Afrika", bron: "NOS", datum: "2026-08-13", url: "#" },
+      { titel: "Economie van Vietnam groeit sneller dan verwacht", bron: "NRC", datum: "2026-08-10", url: "#" }
+    ]
+  },
+  {
+    id: "grenzen-identiteit",
+    icoon: "🗺️",
+    naam: "Grenzen & identiteit",
+    beschrijving: "Nieuws over landsgrenzen, conflicten tussen landen, en wat mensen samenbindt of juist verdeelt.",
+    artikelen: [
+      { titel: "Spanning aan grens loopt op na incident tussen twee landen", bron: "NOS", datum: "2026-08-17", url: "#" },
+      { titel: "Referendum over autonomie zorgt voor onrust in regio", bron: "NRC", datum: "2026-08-15", url: "#" },
+      { titel: "Vluchtelingenstroom neemt toe door aanhoudend conflict", bron: "Trouw", datum: "2026-08-12", url: "#" }
+    ]
+  }
+];
+
+const OPDRACHT_WEKEN = [
+  {
+    label: "Deze week",
+    week: "2026-W34",
+    verhalen: [
+      {
+        titel: "Zuid-Europa kampt met aanhoudende hittegolf en watertekorten",
+        bron: "NOS", datum: "2026-08-17", url: "#",
+        opdracht: "Zoek op een kaart welke landen in Zuid-Europa worden genoemd. Leg in drie zinnen uit waarom juist deze regio gevoelig is voor droogte."
+      },
+      {
+        titel: "Bouw nieuw windpark op de Noordzee van start",
+        bron: "NOS", datum: "2026-08-16", url: "#",
+        opdracht: "Vergelijk windenergie op zee met windenergie op land. Noem twee voordelen en twee nadelen van een locatie op zee."
+      },
+      {
+        titel: "Spanning aan grens loopt op na incident tussen twee landen",
+        bron: "NOS", datum: "2026-08-17", url: "#",
+        opdracht: "Zoek de betrokken landsgrens op. Beschrijf kort de geografische ligging en waarom grenzen soms tot spanning leiden."
+      }
+    ]
+  },
+  {
+    label: "1 week terug",
+    week: "2026-W33",
+    verhalen: [
+      {
+        titel: "Woningtekort in grote steden loopt verder op",
+        bron: "NOS", datum: "2026-08-10", url: "#",
+        opdracht: "Noem twee oorzaken van woningtekort in steden en één mogelijke oplossing die een gemeente zou kunnen inzetten."
+      },
+      {
+        titel: "Handelsspanningen tussen grootmachten lopen op",
+        bron: "FD", datum: "2026-08-09", url: "#",
+        opdracht: "Leg uit wat een handelsspanning betekent voor een gewone consument. Geef een concreet voorbeeld van een product."
+      },
+      {
+        titel: "Gletsjers in de Alpen smelten sneller dan verwacht",
+        bron: "Volkskrant", datum: "2026-08-08", url: "#",
+        opdracht: "Beschrijf twee gevolgen van smeltende gletsjers, één voor de natuur en één voor mensen die er wonen."
+      }
+    ]
+  },
+  {
+    label: "2 weken terug",
+    week: "2026-W32",
+    verhalen: [
+      {
+        titel: "Overstromingen richten schade aan in Pakistan na moessonregens",
+        bron: "NOS", datum: "2026-08-03", url: "#",
+        opdracht: "Zoek op wat een moesson is. Leg uit waarom deze regenval soms tot overstromingen leidt."
+      },
+      {
+        titel: "Vraag naar lithium voor batterijen jaagt mijnbouw aan",
+        bron: "Trouw", datum: "2026-08-02", url: "#",
+        opdracht: "Noem één land waar veel lithium wordt gewonnen. Beschrijf een mogelijk nadeel van deze mijnbouw voor het milieu."
+      },
+      {
+        titel: "Referendum over autonomie zorgt voor onrust in regio",
+        bron: "NRC", datum: "2026-08-01", url: "#",
+        opdracht: "Leg in eigen woorden uit wat een referendum is en waarom een regio meer zelfstandigheid zou willen."
+      }
+    ]
+  }
+];
+
+/* ============ RENDER: TABS ============ */
+const tabRow = document.getElementById('tabRow');
+const mainContent = document.getElementById('mainContent');
+
+RUBRIEKEN.forEach((r, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn';
+  btn.setAttribute('role', 'tab');
+  btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+  btn.dataset.target = r.id;
+  btn.innerHTML = `<span class="tab-icon">${r.icoon}</span> ${r.naam}`;
+  btn.addEventListener('click', () => activeerTab(r.id));
+  tabRow.appendChild(btn);
+});
+
+const opdrachtBtn = document.createElement('button');
+opdrachtBtn.className = 'tab-btn opdracht-tab';
+opdrachtBtn.setAttribute('role', 'tab');
+opdrachtBtn.setAttribute('aria-selected', 'false');
+opdrachtBtn.dataset.target = 'opdracht';
+opdrachtBtn.innerHTML = `<span class="tab-icon">📝</span> Opdracht van de week`;
+opdrachtBtn.addEventListener('click', () => activeerTab('opdracht'));
+tabRow.appendChild(opdrachtBtn);
+
+/* ============ RENDER: NIEUWS-PANELEN ============ */
+RUBRIEKEN.forEach((r, i) => {
+  const panel = document.createElement('section');
+  panel.className = 'panel' + (i === 0 ? ' active' : '');
+  panel.id = 'panel-' + r.id;
+  panel.setAttribute('role', 'tabpanel');
+
+  const lijst = r.artikelen.length
+    ? `<ul class="artikel-lijst">${r.artikelen.map(a => `
+        <li class="artikel-item">
+          <a class="artikel-titel" href="${a.url}" target="_blank" rel="noopener">${a.titel}</a>
+          <div class="artikel-meta">${a.bron} <span class="datum">· ${formatDatum(a.datum)}</span></div>
+        </li>`).join('')}</ul>`
+    : `<p class="lege-rubriek">Deze week geen nieuwe berichten in deze rubriek.</p>`;
+
+  panel.innerHTML = `
+    <div class="rubriek-header">
+      <h2>${r.icoon} ${r.naam}</h2>
+      <p>${r.beschrijving}</p>
+    </div>
+    ${lijst}
+  `;
+  mainContent.appendChild(panel);
+});
+
+/* ============ RENDER: OPDRACHT-PANEEL ============ */
+const opdrachtPanel = document.createElement('section');
+opdrachtPanel.className = 'panel';
+opdrachtPanel.id = 'panel-opdracht';
+opdrachtPanel.setAttribute('role', 'tabpanel');
+
+opdrachtPanel.innerHTML = `
+  <div class="rubriek-header">
+    <h2>📝 Opdracht van de week</h2>
+    <p>Elke maandag kiest de redactie drie grote, uiteenlopende verhalen van de afgelopen week en maakt daar een korte opdracht bij.</p>
+  </div>
+  <div class="week-selector" id="weekSelector"></div>
+  <div id="opdrachtInhoud"></div>
+`;
+mainContent.appendChild(opdrachtPanel);
+
+const weekSelector = document.getElementById('weekSelector');
+const opdrachtInhoud = document.getElementById('opdrachtInhoud');
+
+OPDRACHT_WEKEN.forEach((w, i) => {
+  const pill = document.createElement('button');
+  pill.className = 'week-pill' + (i === 0 ? ' actief' : '');
+  pill.textContent = w.label;
+  pill.addEventListener('click', () => toonWeek(i));
+  weekSelector.appendChild(pill);
+});
+
+function toonWeek(index) {
+  [...weekSelector.children].forEach((p, i) => p.classList.toggle('actief', i === index));
+  const week = OPDRACHT_WEKEN[index];
+  opdrachtInhoud.innerHTML = week.verhalen.map(v => `
+    <div class="opdracht-kaart">
+      <p class="opdracht-label">Verhaal</p>
+      <a class="artikel-titel" href="${v.url}" target="_blank" rel="noopener">${v.titel}</a>
+      <div class="artikel-meta">${v.bron} <span class="datum">· ${formatDatum(v.datum)}</span></div>
+      <div class="opdracht-tekst">
+        <strong>Opdracht</strong>
+        ${v.opdracht}
+      </div>
+    </div>
+  `).join('');
+}
+toonWeek(0);
+
+/* ============ TAB-NAVIGATIE ============ */
+function activeerTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', b.dataset.target === id ? 'true' : 'false'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+}
+
+/* ============ HULPFUNCTIES ============ */
+function formatDatum(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' });
+}
+</script>
+
+</body>
+</html>
