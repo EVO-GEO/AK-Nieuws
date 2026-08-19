@@ -1,0 +1,12 @@
+[
+  { "naam": "NOS Nieuws Algemeen", "url": "https://feeds.nos.nl/nosnieuwsalgemeen" },
+  { "naam": "NOS Nieuws Buitenland", "url": "https://feeds.nos.nl/nosnieuwsbuitenland" },
+  { "naam": "NOS Nieuws Binnenland", "url": "https://feeds.nos.nl/nosnieuwsbinnenland" },
+  { "naam": "NOS Nieuws Economie", "url": "https://feeds.nos.nl/nosnieuwseconomie" },
+  { "naam": "NOS Nieuws Politiek", "url": "https://feeds.nos.nl/nosnieuwspolitiek" },
+  { "naam": "NU.nl Algemeen", "url": "https://www.nu.nl/rss/Algemeen" },
+  { "naam": "NRC", "url": "https://www.nrc.nl/rss/" },
+  { "naam": "Trouw", "url": "https://www.trouw.nl/voorpagina/rss.xml" },
+  { "naam": "Telegraaf", "url": "https://www.telegraaf.nl/rss" },
+  { "naam": "FD (Financieele Dagblad)", "url": "https://fd.nl/?rss" }
+]
