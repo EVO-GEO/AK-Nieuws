@@ -1,5 +1,29 @@
 [
   {
+    "titel": "Gasvoorraad voor 64 procent gevuld, minimale doel gehaald",
+    "bron": "NOS Nieuws Economie",
+    "url": "https://nos.nl/l/2635931",
+    "datum": "2026-10-20"
+  },
+  {
+    "titel": "Audi bouwt eerste fabriek in Verenigde Staten, kritiek vanuit Duitsland",
+    "bron": "NOS Nieuws Buitenland",
+    "url": "https://nos.nl/l/2636652",
+    "datum": "2026-10-25"
+  },
+  {
+    "titel": "Gasprijs stijgt naar hoogste niveau sinds 2022",
+    "bron": "NU.nl Algemeen",
+    "url": "https://www.nu.nl/economie/6414407/gasprijs-stijgt-naar-hoogste-niveau-sinds-2022.html",
+    "datum": "2026-10-26"
+  },
+  {
+    "titel": "De problemen rond programmeertaal PHP worden het ernstigste cyberlek in jaren genoemd. Wie loopt nu gevaar?",
+    "bron": "NRC",
+    "url": "https://www.nrc.nl/nieuws/2026/10/21/de-problemen-rond-programmeertaal-php-worden-het-ernstigste-cyberlek-in-jaren-genoemd-wat-is-er-aan-de-hand-a4939485",
+    "datum": "2026-10-21"
+  },
+  {
     "titel": "Gasprijs naar hoogste niveau in jaren",
     "bron": "NOS Nieuws Economie",
     "url": "https://nos.nl/l/2634919",
@@ -124,29 +148,5 @@
     "bron": "NOS Nieuws Buitenland",
     "url": "https://nos.nl/l/2630739",
     "datum": "2026-09-12"
-  },
-  {
-    "titel": "Energierekening stijgt de komende jaren, vooral voor mensen met warmtepomp",
-    "bron": "NOS Nieuws Politiek",
-    "url": "https://nos.nl/l/2630491",
-    "datum": "2026-09-10"
-  },
-  {
-    "titel": "Vat olie boven de 100 dollar, ook benzineprijs blijft stijgen",
-    "bron": "NOS Nieuws Economie",
-    "url": "https://nos.nl/l/2630295",
-    "datum": "2026-09-09"
-  },
-  {
-    "titel": "Slecht nieuws voor de Saoedische olie-export: Houthi's nemen Mokka in, pijpleiding bij Medina dicht",
-    "bron": "NRC",
-    "url": "https://www.nrc.nl/nieuws/2026/09/11/slecht-nieuws-voor-de-saoedische-olie-export-houthis-nemen-mokka-in-en-rukken-verder-op-naar-cruciale-zeestraat-bab-al-mandeb-a4936431",
-    "datum": "2026-09-11"
-  },
-  {
-    "titel": "Om het essentiële lithium te winnen is heel veel water nodig. Kan het ook met minder?",
-    "bron": "NRC",
-    "url": "https://www.nrc.nl/nieuws/2026/09/11/om-het-essentiele-lithium-te-winnen-is-heel-veel-water-nodig-kan-het-ook-met-minder-a4935555",
-    "datum": "2026-09-11"
   }
 ]
